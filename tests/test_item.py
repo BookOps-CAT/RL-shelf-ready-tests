@@ -13,27 +13,29 @@ def test_Item_price_valid(arg):
         Item(location="sna0l", price=arg)
 
 
-@pytest.mark.parametrize("arg", ["999", "0", 999, 0.99, 0, "", None])
+@pytest.mark.parametrize("arg", ["999", "0", "9.999", 999, 0.99, 0, "", None])
 def test_Item_price_invalid(arg):
     with pytest.raises(ValidationError):
         Item(location="sna0l", price=arg)
 
 
-def test_item_callno_tag_valid():
+def test_ItemRL_callno_tag_valid():
     with does_not_raise():
-        ItemRL(callno_tag="8528", callno="ReCAP 23-108092")
+        ItemRL(
+            callno_tag="8528", callno="ReCAP 23-108092", price="9.99", location="rc2ma"
+        )
 
 
 @pytest.mark.parametrize("arg", [None, "", "foo"])
-def test_item_callno_tag_invalid(arg):
+def test_ItemRL_callno_tag_invalid(arg):
     with pytest.raises(ValidationError):
-        ItemRL(callno_tag=arg, callno="ReCAP 23-108092")
+        ItemRL(callno_tag=arg, callno="ReCAP 23-108092", price="9.99", location="rc2ma")
 
 
 @pytest.mark.parametrize("arg", ["ReCAP 23-108092", "ReCAP 23-108093"])
 def test_item_callno_valid(arg):
     with does_not_raise():
-        ItemRL(callno_tag="8528", callno=arg)
+        ItemRL(callno_tag="8528", callno=arg, price="9.99", location="rc2ma")
 
 
 @pytest.mark.parametrize(
@@ -50,6 +52,6 @@ def test_item_callno_valid(arg):
         None,
     ],
 )
-def test_item_callno_valid(arg):
+def test_ItemRL_callno_valid(arg):
     with pytest.raises(ValidationError):
-        ItemRL(callno_tag="8528", callno=arg)
+        ItemRL(callno_tag="8528", callno=arg, price="9.99", location="rc2ma")
