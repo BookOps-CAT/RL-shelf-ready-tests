@@ -20,6 +20,6 @@ class Item(BaseModel):
     price: str = Field(pattern=r"\d{1,}\.\d{2}$")
 
 
-class ItemRL(BaseModel):
+class ItemRL(Item):
     callno_tag: Literal["8528"]
     callno: str = Field(pattern=r"^ReCAP 23-\d{6}$")
