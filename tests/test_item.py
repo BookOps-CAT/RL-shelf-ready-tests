@@ -4,7 +4,19 @@ import pytest
 from pydantic import ValidationError
 
 
-from src.models import ItemRL
+from src.models import Item, ItemRL
+
+
+@pytest.mark.parametrize("arg", ["9.99", 9.99, 0.99, "0.00"])
+def test_Item_price_valid(arg):
+    with does_not_raise():
+        Item(location="sna0l", price=arg)
+
+
+@pytest.mark.parametrize("arg", ["999", 999, "", None, 0])
+def test_Item_price_invalid(arg):
+    with pytest.raises(ValidationError):
+        Item(location="sna0l", price=arg)
 
 
 def test_item_callno_tag_valid():
