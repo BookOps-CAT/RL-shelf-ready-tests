@@ -1,8 +1,20 @@
-from decimal import *
+from enum import Enum
 from typing import Literal
 
-from pydantic import BaseModel, field_validator, Field
-from pydantic import ValidationError
+from pydantic import BaseModel, Field
+
+
+class MarcOrderEncoding(Enum):
+    location = "$t"
+    fund_code = "$u"
+    price = "$s"
+
+
+class MarcItemEncoding(Enum):
+    location = "$l"
+    price = "$p"
+    callno_tag = "$z"
+    callno = "$a"
 
 
 class Order(BaseModel):

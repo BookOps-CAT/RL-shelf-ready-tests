@@ -1,11 +1,14 @@
 from pydantic import ValidationError
 from rich import print
 
-from src.models import OrderRL, ItemRL
+from src.models import OrderRL, ItemRL, MarcOrderEncoding, MarcItemEncoding
 
 
-def parse_errors(e):
-    return f"{e['loc'][0]}: {e['msg']} | input: {e['input']}"
+def format_errors(e, model):
+    if model == "order":
+        return f"{MarcOrderEncoding[e['loc'][0]].value} ({e['loc'][0]}): {e['msg']} | input: {e['input']}"
+    elif model == "item":
+        return f"{MarcItemEncoding[e['loc'][0]].value} ({e['loc'][0]}): {e['msg']} | input: {e['input']}"
 
 
 def simulate():
@@ -17,15 +20,15 @@ def simulate():
         )
     except ValidationError as exc:
         for e in exc.errors():
-            formatted_e = parse_errors(e)
-            print(f"[italic red]Order problem:[/italic red] {formatted_e}")
+            formatted_e = format_errors(e, "order")
+            print(f"[italic red]Order problem (960 field):[/italic red] {formatted_e}")
 
     try:
         ItemRL(location="rc2ma", price="999", callno_tag="8528", callno="23-123456")
     except ValidationError as exc:
         for e in exc.errors():
-            formatted_e = parse_errors(e)
-            print(f"[italic red]Item problem:[/italic red] {formatted_e}")
+            formatted_e = format_errors(e, "item")
+            print(f"[italic red]Item problem (949 field):[/italic red] {formatted_e}")
 
 
 if __name__ == "__main__":
