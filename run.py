@@ -10,7 +10,7 @@ def parse_errors(e):
 
 def simulate():
     try:
-        order = OrderRL(
+        OrderRL(
             location="myn",
             fund_code="foo",
             price="9.99",
@@ -19,10 +19,9 @@ def simulate():
         for e in exc.errors():
             formatted_e = parse_errors(e)
             print(f"[italic red]Order problem:[/italic red] {formatted_e}")
+
     try:
-        item = ItemRL(
-            location="rc2ma", price="999", callno_tag="8528", callno="23-123456"
-        )
+        ItemRL(location="rc2ma", price="999", callno_tag="8528", callno="23-123456")
     except ValidationError as exc:
         for e in exc.errors():
             formatted_e = parse_errors(e)
