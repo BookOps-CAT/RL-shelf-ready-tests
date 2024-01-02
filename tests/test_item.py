@@ -79,7 +79,7 @@ def test_ItemRL_callno_valid(arg):
         )
 
 
-def test_ItemRL_subs_combination_invalid():
+def test_ItemRL_subs_combination_rcmb2_invalid_item_type():
     with pytest.raises(ValidationError) as exc:
         ItemRL(
             callno_tag="8528",
@@ -89,3 +89,14 @@ def test_ItemRL_subs_combination_invalid():
             subs_combinations=("rcmb2", "55", "43"),
         )
     assert "Input should be ('rcmb2', '2', '43')" in (str(exc))
+
+
+def test_ItemRL_subs_combination_rcmf2_valid():
+    with does_not_raise():
+        ItemRL(
+            callno_tag="8528",
+            callno="ReCAP 23-108092",
+            price="9.99",
+            location="rcmf2",
+            subs_combinations=("rcmf2", "55", "43"),
+        )
