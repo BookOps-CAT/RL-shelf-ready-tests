@@ -35,3 +35,4 @@ class Item(BaseModel):
 class ItemRL(Item):
     callno_tag: Literal["8528"]
     callno: str = Field(pattern=r"^ReCAP 23-\d{6}$")
+    subs_combinations: Literal[("rcmb2", "2", "43"), ("rcmf2", "55", "43")]

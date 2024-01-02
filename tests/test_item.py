@@ -22,20 +22,36 @@ def test_Item_price_invalid(arg):
 def test_ItemRL_callno_tag_valid():
     with does_not_raise():
         ItemRL(
-            callno_tag="8528", callno="ReCAP 23-108092", price="9.99", location="rc2ma"
+            callno_tag="8528",
+            callno="ReCAP 23-108092",
+            price="9.99",
+            location="rcmb2",
+            subs_combinations=("rcmb2", "2", "43"),
         )
 
 
 @pytest.mark.parametrize("arg", [None, "", "foo"])
 def test_ItemRL_callno_tag_invalid(arg):
     with pytest.raises(ValidationError):
-        ItemRL(callno_tag=arg, callno="ReCAP 23-108092", price="9.99", location="rc2ma")
+        ItemRL(
+            callno_tag=arg,
+            callno="ReCAP 23-108092",
+            price="9.99",
+            location="rcmb2",
+            subs_combinations=("rcmb2", "2", "43"),
+        )
 
 
 @pytest.mark.parametrize("arg", ["ReCAP 23-108092", "ReCAP 23-108093"])
 def test_item_callno_valid(arg):
     with does_not_raise():
-        ItemRL(callno_tag="8528", callno=arg, price="9.99", location="rc2ma")
+        ItemRL(
+            callno_tag="8528",
+            callno=arg,
+            price="9.99",
+            location="rcmb2",
+            subs_combinations=("rcmb2", "2", "43"),
+        )
 
 
 @pytest.mark.parametrize(
@@ -54,4 +70,22 @@ def test_item_callno_valid(arg):
 )
 def test_ItemRL_callno_valid(arg):
     with pytest.raises(ValidationError):
-        ItemRL(callno_tag="8528", callno=arg, price="9.99", location="rc2ma")
+        ItemRL(
+            callno_tag="8528",
+            callno=arg,
+            price="9.99",
+            location="rcmb2",
+            subs_combinations=("rcmb2", "2", "43"),
+        )
+
+
+def test_ItemRL_subs_combination_invalid():
+    with pytest.raises(ValidationError) as exc:
+        ItemRL(
+            callno_tag="8528",
+            callno="ReCAP 23-108092",
+            price="9.99",
+            location="rc2ma",
+            subs_combinations=("rcmb2", "55", "43"),
+        )
+    assert "Input should be ('rcmb2', '2', '43')" in (str(exc))
